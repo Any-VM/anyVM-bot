@@ -1,0 +1,34 @@
+#!/bin/bash
+# Made by kxtzownsu & Fallenmoon8080
+# Fixed by Fallenmoon8080
+HOOK=1
+WALL=1
+VERSION="1.1.3"
+URI="https://discord.com/api/webhooks/1202369041881366618/3Ivju6qMYUCGnr40dGKK2gYg0wIMM8Rf_CqH3y0WSK3GphCts_svxpoA4Ex1mu0toTAk"
+if [[ "$*" == "" ]] ; then
+	printf "Usage: $0 <options> <quoted message>\n  -h    Show this help message\n  -v    Show the program's version\n  -n    Don't send a wall, just post to the webhook\n  -c    Just print the message to console, no wall\n"
+else
+for (( i=1 ; i<=$# ; i++ )); do
+	if [[ ${!i} == "--help" || ${!i} == "-h" ]]; then
+		printf "Usage: $0 <options> <quoted message>\n  -h    Show this help message\n  -v    Show the program's version\n  -n    Don't send a wall, just post to the webhook\n  -c    Just print the message to console, no wall\n"
+	elif [[ ${!i} == "-v" ]]; then
+		printf "Announcement Utility by Fallenmoon8080\n  Version $VERSION \n"
+	elif [[ ${!i} == "-n" ]]; then
+		WALL=0
+	elif [[ ${!i} == "-c" ]]; then
+		WALL=0
+		HOOK=0
+	else
+		if [[ $HOOK == 1 ]]; then
+			curl -H "Content-Type: application/json" \
+			 -d '{"content": "'"${!i}"'"}' \
+			 $URI
+		fi
+		if [[ $WALL == 1 ]]; then
+			wall ${!i}
+		fi
+	printf "${!i}\n"
+	fi
+done
+fi
+
