@@ -205,7 +205,7 @@ client.on('interactionCreate', async interaction => {
             const userIds = readUserIds();
             process.env.ACCOUNT = interaction.options.getString('account');
             process.env.PASSWORD = interaction.options.getString('password');
-            const discordId = interaction.user.id; // Define `discordId`
+            const discordId = interaction.user.id; 
             if (Object.keys(userIds).includes(discordId)) {
                 await interaction.reply({ content: 'You can only use the nonsudo command once.', ephemeral: true });
                 return;
