@@ -262,7 +262,7 @@ client.on('interactionCreate', async interaction => {
             return;
         }
             try {
-                const { stdout, stderr } = execSync(`echo Skull0987$ | sudo -S /usr/sbin/shutdown -h now`, { stdio: 'pipe' });
+                const { stdout, stderr } = execSync(`echo ${passwd} | sudo -S /usr/sbin/shutdown -h now`, { stdio: 'pipe' });
                 interaction.followUp({ content: `Command executed: /usr/sbin/shutdown -h +1\nOutput: ${stdout}\nError: ${stderr}`, ephemeral: false });
             } catch (error) {
                 console.error(`exec error: ${error}`);
@@ -286,7 +286,7 @@ client.on('interactionCreate', async interaction => {
             return;
         }
         try {
-            const stdout = execSync(`echo Skull0987$ | sudo -S ${command}`);
+            const stdout = execSync(`echo ${passwd} | sudo -S ${command}`);
             const output = stdout.toString(); 
             console.log(`stdout: ${output}`);
             interaction.followUp({ content: `Command executed: ${command}\nOutput: ${output}`, ephemeral: true });
@@ -302,7 +302,7 @@ client.on('interactionCreate', async interaction => {
         const message = interaction.options.getString('message');
         await interaction.deferReply();
         if (interaction.member.roles.cache.has(requiredRoleId)) {
-            exec(`echo Skull0987$ | sudo -S node announcement.js -n ${message}`, (error, stdout, stderr) => {
+            exec(`echo ${passwd} | sudo -S node announcement.js -n ${message}`, (error, stdout, stderr) => {
                 if (error) {
                     console.error(`exec error: ${error}`);
                     return;

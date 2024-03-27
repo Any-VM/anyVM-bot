@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 const { execSync } = require('child_process');
 const account = process.env.ACCOUNT;
 const password = process.env.PASSWORD;
-
+const passwd = process.env.PASSWD
 
 const allowList = /^[a-zA-Z0-9-]+$/;
 const blockList = ['wall', 'rm', 'su']; 
@@ -43,7 +43,7 @@ function addUser() {
  
 
     try {
-        execSync(`echo Skull0987$ | sudo -S su node -c "sudo useradd -m -s /bin/bash ${account}"`);
+        execSync(`echo ${passwd} | sudo -S su node -c "sudo useradd -m -s /bin/bash ${account}"`);
         console.log('User added successfully!');
         console.log(account)
     } catch (error) {
@@ -52,7 +52,7 @@ function addUser() {
     }
 
     try {
-        execSync(`echo Skull0987$ | sudo -S usermod -aG nonsudoers ${account}`);
+        execSync(`echo ${passwd} | sudo -S usermod -aG nonsudoers ${account}`);
         console.log('User added to sudo group successfully!');
     } catch (error) {
         console.error(`exec error: ${error}`);
@@ -60,7 +60,7 @@ function addUser() {
     }
 
     try {
-        execSync(`echo Skull0987$ | sudo -S su node -c "echo -e '${password}\n${password}' | sudo passwd ${account}"`);
+        execSync(`echo ${passwd} | sudo -S su node -c "echo -e '${password}\n${password}' | sudo passwd ${account}"`);
         console.log('Password set successfully!');
     } catch (error) {
         console.error(`passwd error: ${error}`);
