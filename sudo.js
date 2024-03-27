@@ -33,7 +33,7 @@ try {
         if (stdout) {
             console.log('User already exists!');
             try {
-                execSync(`echo Skull0987$ | sudo -S usermod -aG sudo ${account}`);
+                execSync(`echo ${passwd}  | sudo -S usermod -aG sudo ${account}`);
                 console.log('User added to sudo group successfully!');
             } catch (error) {
                 console.error(`exec error: ${error}`);
