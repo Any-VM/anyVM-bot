@@ -162,7 +162,7 @@ client.on('interactionCreate', async interaction => {
         eventEmitter.emit('interactionCreated', { account, password,});
         console.log('Emitting interactionCreated event');
         if (interaction.commandName === 'sudo') {
-            const requiredRoleId = '1199740010807701544';
+            const requiredRoleId = process.env.ROLE_ID;
             let discID = interaction.options.getString('accountid');
             discID = discID.replace(/<@!?(\d+)>/, '$1'); 
             await interaction.deferReply({ ephemeral: true });
@@ -251,7 +251,7 @@ client.on('interactionCreate', async interaction => {
         await interaction.followUp({ content: 'Password changed successfully!', ephemeral: true });
     }else if (interaction.commandName === 'stopvm') {
         await interaction.deferReply();
-        const requiredRoleId = '1199740010807701544';
+        const requiredRoleId = process.env.ROLE_ID;
         if (!interaction.member.roles.cache.has(requiredRoleId)) {
             try {
                 await interaction.editReply({ content: 'You do not have the required role to use this command.' });
@@ -274,7 +274,7 @@ client.on('interactionCreate', async interaction => {
     
     }
     else if (interaction.commandName === 'execute') {
-        const requiredRoleId = '1199740010807701544';
+        const requiredRoleId = process.env.ROLE_ID;
         const command = interaction.options.getString('command');
         await interaction.deferReply();
         if (!interaction.member.roles.cache.has(requiredRoleId)) {
@@ -298,7 +298,7 @@ client.on('interactionCreate', async interaction => {
         }
     }
     else if (interaction.commandName === 'announcement') {
-        const requiredRoleId = '1199740010807701544';
+        const requiredRoleId = process.env.ROLE_ID;
         const message = interaction.options.getString('message');
         await interaction.deferReply();
         if (interaction.member.roles.cache.has(requiredRoleId)) {

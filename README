@@ -1,4 +1,4 @@
 this bot allows you to control your vm remotely
 simply fill out the env, currently stopping and starting the vm is not fully tested and doesnt really work
 then just npm install package.json then node server.js  and you should be good to go.
-also you will need to go into the files and change the role id to allow yourself or just admins to use some commands, i will make it read from the env instead in a bit.
+i will try to update this but will not test it, im moving on with anyvm-bot v2 for proxmox
