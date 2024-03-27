@@ -1,1 +1,3 @@
-e e w ew
+this bot allows you to control your vm remotely
+simply fill out the env, currently stopping and starting the vm is not fully tested and doesnt really work
+then just node server.js and you should be good to go.
