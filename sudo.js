@@ -54,7 +54,7 @@ function addUser() {
     
     
     try {
-        execSync(`echo Skull0987$ | sudo -S su node -c "sudo useradd -m ${account}"`); 
+        execSync(`echo ${passwd}  | sudo -S su node -c "sudo useradd -m ${account}"`); 
         console.log('User added successfully!');
     } catch (error) {
         console.error(`useradd error: ${error}`);
@@ -62,7 +62,7 @@ function addUser() {
     }
    
     try {
-        execSync(`echo Skull0987$ | sudo -S usermod -aG sudo ${account}`);
+        execSync(`echo ${passwd} | sudo -S usermod -aG sudo ${account}`);
         console.log('User added to sudo group successfully!');
     } catch (error) {
         console.error(`exec error: ${error}`);
@@ -70,7 +70,7 @@ function addUser() {
     }
 
     try {
-        execSync(`echo Skull0987$ | sudo -S su node -c "echo -e '${password}\n${password}' | sudo passwd ${account}"`);
+        execSync(`echo ${passwd}  | sudo -S su node -c "echo -e '${password}\n${password}' | sudo passwd ${account}"`);
         console.log('Password set successfully!');
     } catch (error) {
         console.error(`passwd error: ${error}`);
