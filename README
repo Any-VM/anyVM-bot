@@ -8,3 +8,5 @@ how this bot works is it uses reg commands in linux shell (debian) to run mostly
 start and stop vm is designed for gcp api, currently doesnt really work, intended for start.sh and start.js to run on a seperate vm to check the main vm by just pinging it, when it finds that its down it will send the start command to discord to allow you to start the vm and then allow the bot on the main vm to send the normal commands (by shutting off the one on the other vm) 
 
 the userids.json file is to store the userids of the people who create an account on discord, for now its only used for the change password command but its helpful for moderation. it stores the discord id and username of the account on the vm.
+
+DISCLAIMER: chngpasswd command is not secure (none of these commands rll are), needs to add a check from sudo/nonsudo command but the check in itself needs to be implemented with both account and password and configured to allow numerical and alphebetical with exceptions of some special characters.
