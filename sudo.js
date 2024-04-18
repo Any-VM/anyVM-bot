@@ -5,7 +5,6 @@ const { error } = require('console');
 const account = process.env.ACCOUNT;
 const password = process.env.PASSWORD;
 
-
 const allowList = /^[a-zA-Z0-9-]+$/;
 const blockList = ['wall', 'rm', 'su']; 
 

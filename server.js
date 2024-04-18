@@ -70,7 +70,36 @@ const commands = [
             },
         ],
     },
-
+    {
+        name: 'container',
+        description: 'creates a container for you',
+        options: [
+            {
+                name: 'container name',
+                type: 3, 
+                description: 'The name of the container',
+                required: true,
+            },
+            {
+                name: 'username',
+                type: 3, 
+                description: 'The container\'s username',
+                required: true,
+            },
+            {
+                name: 'password',
+                type: 3, 
+                description: 'The container\'s password',
+                required: true,
+            },
+            {
+                name: 'ssh key',
+                type: 3, 
+                description: 'The container\'s ssh PUBLIC key. DO NOT USE YOUR PRIVATE KEY PLEASE!',
+                required: false,
+            },
+        ],
+    },
     {
         name: 'chngpasswd',
         description: 'Changes your password',

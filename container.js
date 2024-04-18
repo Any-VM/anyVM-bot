@@ -16,21 +16,21 @@ function validateInput(input) {
     return true;
 }
 
-if (!validateInput(account)) {
-    console.error('Invalid account or password. They should not be longer than 10 characters and should only contain alphanumeric characters and hyphens, and should not contain blocked words.');
+if (!validateInput(username)) {
+    console.error('Invalid username or password. They should not be longer than 10 characters and should only contain alphanumeric characters and hyphens, and should not contain blocked words.');
     process.exit(1);
 }
 
 try {
-    exec(`grep '^${account}:' /etc/passwd`, (error, stdout, stderr) => {
+    exec(``, (error, stdout, stderr) => {
         console.log('Checking if user exists...');
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);
         if (stdout) {
-            console.log('User already exists!');
-            //            process.exit(1); // pretty sure this will only restart the bot
+            console.log('Container already exists!');
+//            process.exit(1); // pretty sure this will only restart the bot
         } else {
-            console.log('User does not exist, adding user...');
+            console.log('Container does not exist, creating the container...');
 
             addUser();
         }
@@ -39,13 +39,16 @@ try {
     console.error(`exec error: ${error}`);
 }
 
-function addUser() {
+// i think we can just create a special user and give it a group which is
+// defined in `/etc/sudoers` (edit the file with `visudo`). something like `bot`
+// should work perfectly fine.
+function addContainer() {
     try {
         execSync(`echo ${passwd} | sudo -S su node -c "sudo useradd -m -s /bin/bash ${account}"`);
-        console.log('User added successfully!');
+        console.log('Container created successfully!');
         console.log(account)
     } catch (error) {
-        console.error(`useradd error: ${error}`);
+        console.error(`container creation error: ${error}`);
         return;
     }
 
