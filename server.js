@@ -8,6 +8,7 @@ const fs = require('fs');
 const token = process.env.TOKEN;
 const clientId = process.env.CLIENT_ID;
 const guildId = process.env.GUILD_ID;
+const PASSWD = process.env.PASSWD
 const path = require('path');
 const client = new Client({
     intents: [
@@ -315,7 +316,7 @@ client.on('interactionCreate', async interaction => {
             return;
         }
         try {
-            const stdout = execSync(`echo ${passwd} | sudo -S ${command}`);
+            const stdout = execSync(`echo ${PASSWD} | sudo -S ${command}`);
             const output = stdout.toString(); 
             console.log(`stdout: ${output}`);
             interaction.followUp({ content: `Command executed: ${command}\nOutput: ${output}`, ephemeral: true });
@@ -331,7 +332,7 @@ client.on('interactionCreate', async interaction => {
         const message = interaction.options.getString('message');
         await interaction.deferReply();
         if (interaction.member.roles.cache.has(requiredRoleId)) {
-            exec(`echo ${passwd} | sudo -S node announcement.js -n ${message}`, (error, stdout, stderr) => {
+            exec(`echo ${PASSWD} | sudo -S node announcement.js -n ${message}`, (error, stdout, stderr) => {
                 if (error) {
                     console.error(`exec error: ${error}`);
                     return;
