@@ -112,6 +112,18 @@ const commands = [
             },
             
         ],
+    },
+    {
+        name: 'gpt',
+        description: 'Generates text using GPT-4-turbo',
+        options: [
+            {
+                name: 'message',
+                type: 3,
+                description: 'The message to generate text from',
+                required: true,
+            },
+        ],
     }
 ];
 
@@ -312,10 +324,68 @@ client.on('interactionCreate', async interaction => {
                 console.error(`stderr: ${stderr}`);
                 interaction.followUp({ content: `Announcement made! Output: ${stdout}`, ephemeral: true });
             });
-        } else {
-            interaction.followUp({ content: "You don't have the required role to run this command.", ephemeral: true });
         }
     }
+    else if (interaction.commandName === 'gpt') {
+        const message = interaction.options.getString('message').replace(/"/g, '\\"');
+        
+        // Define a blocklist of words
+        const blocklist = ['<@&1203130746538041344>', '@', 'test'];
+        
+        // Check if the message contains any blocklisted words
+        const containsBlockedWord = blocklist.some(blockedWord => message.toLowerCase().includes(blockedWord));
+        
+        if (containsBlockedWord) {
+            // If a blocklisted word is found, respond and do not proceed
+            await interaction.reply({ content: "Your message contains a word that is not allowed.", ephemeral: true });
+            return; // Stop execution
+        }
+        
+        await interaction.deferReply();
+        exec(`node gpt.js "${message}"`, async (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                await interaction.followUp({ content: "There was an error processing your request.", ephemeral: true });
+                return;
+            }
+            if (stderr) {
+                console.error(`stderr: ${stderr}`);
+                // Optionally handle stderr
+            }
+            console.log(`Received stdout: ${stdout}`); // Log stdout for debugging
+            const lines = stdout.split('\n'); // Split stdout into lines
+            let capturing = false;
+            let capturedData = '';
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                console.log(`Processing line: ${line}`); // Log each line for debugging
+                if (line.match(/^\s*data:\s*['"]/)) {
+                    capturing = true; // Start capturing from the next line
+                    continue; // Skip the current line with "data:"
+                }
+                if (capturing) {
+                    // If it's the last line and only contains a closing bracket, break
+                    if (i === lines.length - 1 && line.match(/^\s*}\s*$/)) {
+                        break;
+                    }
+                    capturedData += line + '\n'; // Add the line to capturedData
+                }
+            }
+            
+            if (capturedData) {
+                console.log(`Captured data: ${capturedData}`); // Log captured data for inspection
+                await interaction.followUp({ content: capturedData.trim(), ephemeral: true }); // Trim and follow up
+            } else {
+                // If no data was found after processing all lines, handle accordingly
+                console.log("No valid data found in response."); // Log final outcome for debugging
+                await interaction.followUp({ content: "No valid data found in response.", ephemeral: true });
+            }
+        });
+    }
+        else {
+            interaction.followUp({ content: "Failed womp", ephemeral: true });
+        }
 });
 client.login(token);
 
